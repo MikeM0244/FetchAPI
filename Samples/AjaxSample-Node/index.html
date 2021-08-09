@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Fetch API Sample</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/styles/site.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <main role="main" class="pb-3">
+        <h1>Product Information</h1>
+
+        <div class="row">
+          <div class="col">
+            <label id="message" class="infoMessage d-none"></label>
+            <label id="error" class="errorMessage d-none"></label>
+          </div>
+        </div>
+
+        <div id="list" class="d-none">
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-primary" onclick="productController.add();">
+                Add Product
+              </button>
+            </div>
+          </div>
+
+          <table id="products" class="table table-bordered table-striped table-collapsed">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Product Number</th>
+                <th>Color</th>
+                <th class="text-right">Cost</th>
+                <th class="text-right">Price</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <form id="detail" class="d-none">
+          <div class="form-group">
+            <label for="productID">Product ID</label>
+            <input id="productID" name="productID" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="name">Product Name</label>
+            <input id="name" name="name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="productNumber">Product Number</label>
+            <input id="productNumber" name="productNumber" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="color">Color</label>
+            <input id="color" name="color" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="standardCost">Cost</label>
+            <input id="standardCost" name="standardCost" type="number" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="listPrice">Price</label>
+            <input id="listPrice" name="listPrice" type="number" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="sellStartDate">Sell Start Date</label>
+            <input id="sellStartDate" name="sellStartDate" class="form-control" />
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" id="saveButton" onclick="productController.save();">
+              Save
+            </button>
+            <button type="button" class="btn btn-info" id="cancelButton" onclick="productController.cancel();">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/scripts/site.js"></script>
+    <script src="/scripts/ajax-common.js"></script>
+    <script src="/scripts/product.js"></script>
+    <script id="dataTmpl" type="text/html">
+      {{#list}}
+      <tr>
+        <td>
+          <button type="button" class="btn btn-primary" onclick="productController.getEntity({{productID}});">
+            Edit
+          </button>
+          &nbsp;
+          <button type="button" class="btn btn-danger" onclick="productController.deleteEntity({{productID}});">
+            Delete
+          </button>
+        </td>
+        <td>{{productID}}</td>
+        <td>{{name}}</td>
+        <td>{{productNumber}}</td>
+        <td>{{color}}</td>
+        <td class="text-right">{{standardCost}}</td>
+        <td class="text-right">{{listPrice}}</td>
+      </tr>
+      {{/list}}
+    </script>
+    <script>
+      'use strict';
+
+      window.onload = function () {
+        productController.setOptions(appSettings);
+        productController.get();
+      }
+    </script>
+  </body>
+
+</html>
